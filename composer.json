@@ -1,0 +1,29 @@
+{
+    "name": "boke0/boke0ick_mecha",
+    "description": "マイクロフレームワークで、気持ちいいCMS作ってみました。",
+    "type": "project",
+    "require": {
+        "boke0/skull": "^1.3",
+        "boke0/clavicle": "^1.2",
+        "boke0/scapula": "^1.2",
+        "boke0/rose": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "mockery/mockery": "^1.3"
+    },
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "木瓜丸",
+            "email": "boke0@eugensite.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":{
+        "psr-4":{
+            "Boke0\\Mechanism\\":"src/",
+            "Boke0\\Mechanism\\Test\\":"test/"
+        }
+    }
+}
