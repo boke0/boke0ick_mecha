@@ -5,7 +5,7 @@ namespace Boke0\Mechanism\Mdl;
 class Theme extends Mdl{
     public function __construct($theme){
         $twig=new \Twig\Loader\FilesystemLoader(__DIR__."/../../themes/{$theme}");
-        $this->twig=\Twig\Environment($twig);
+        $this->twig=new \Twig\Environment($twig);
         $this->theme=$theme;
     }
     public function render($type,$data){
@@ -19,5 +19,8 @@ class Theme extends Mdl{
         $mime=mime_content_type($path);
         return $res->withBody($body)
                    ->withHeader("Content-Type",$mime);
+    }
+    public function assetExists($filename){
+        return file_exists(__DIR__."/../../themes/{$this->theme}/{$filename}");
     }
 }

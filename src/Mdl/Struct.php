@@ -3,6 +3,6 @@
 namespace Boke0\Mechanism\Mdl;
 
 class Struct extends Mdl{
-    public function (){
+    public function __construct(){
     }
 }

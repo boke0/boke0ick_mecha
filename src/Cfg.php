@@ -4,9 +4,9 @@ namespace Boke0\Mechanism;
 
 class Cfg{
     public function get($key){
-        return $this->fromJSON()->$key;
+        return self::fromJSON()->$key;
     }
-    private function fromJSON(){
+    public function fromJSON(){
         return json_decode(file_get_contents(__DIR__."/../config.json"));
     }
 }

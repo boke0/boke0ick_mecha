@@ -10,6 +10,7 @@ use Boke0\Skull\Dispatcher;
 use Boke0\Rose\Container;
 use Boke0\Mechanism\Ctrl;
 use Boke0\Mechanism\Mdl;
+use Boke0\Mechanism\Cfg;
 
 $container=new Container();
 $container->add("responseFactory",function($c){
@@ -44,7 +45,7 @@ $container->add("user",function($c){
     return new Mdl\User($c->get("db"),$c->get("invite"));
 });
 $container->add("theme",function($c){
-    return new Mdl\Theme();
+    return new Mdl\Theme(Cfg::get("theme"));
 });
 $container->add("plugin",function($c){
     return new Mdl\Plugin();
