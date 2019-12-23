@@ -1,0 +1,10 @@
+{% extends skeleton.tpl.html %}
+{% block content %}
+    <h2>展示</h2>    
+    {% for work in works %}
+    <a href="work/{{work.id}}" class="work_list">
+        <img src="{{work.thumbnail}}" alt="{{work.title}}">
+        <h3>{{work.title}}</h3>
+    </a>
+    {% endfor %}
+{% endblock %}
