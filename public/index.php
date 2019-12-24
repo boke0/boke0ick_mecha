@@ -1,6 +1,6 @@
 <?php
 
-require_once("../vendor/autoload.php");
+require_once(__DIR__."/../vendor/autoload.php");
 
 use Boke0\Scapula\App;
 use Boke0\Clavicle\ResponseFactory;
@@ -68,7 +68,7 @@ $router=new Dispatcher(
 
 $router->any("/install","installCtrl");
 $router->get("/asset","assetCtrl");
-$router->any("/admin","adminCtrl","dash");
+$router->any("/admin","adminCtrl");
 $router->any("/admin/login","adminCtrl","login");
 $router->any("/admin/logout","adminCtrl","logout");
 $router->any("/admin/plugins","adminCtrl","plugins");

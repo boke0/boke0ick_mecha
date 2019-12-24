@@ -8,7 +8,7 @@ class AdminCtrl extends Ctrl{
     public function __construct(){
         $this->userMdl=new Mdl\User();
     }
-    public function dash($req,$args){
+    public function handle($req,$args){
         return $this->twig("dash.html");
     }
     public function login($req,$args){
