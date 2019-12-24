@@ -5,11 +5,11 @@
         <title></title>
     </head>
     <body>
-        {{ include "header.tpl.html" }}
+        {% include "header.tpl.html" %}
         <main>
             {% block content %}
             {% endblock %}
         </main>
-        {{ include "footer.tpl.html" }}
+        {% include "footer.tpl.html" %}
     </body>
 </html>

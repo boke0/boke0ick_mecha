@@ -11,6 +11,7 @@ use Boke0\Rose\Container;
 use Boke0\Mechanism\Ctrl;
 use Boke0\Mechanism\Mdl;
 use Boke0\Mechanism\Cfg;
+use Boke0\Mechanism\MarkdownParser;
 
 $container=new Container();
 $container->add("responseFactory",function($c){
@@ -54,7 +55,19 @@ $container->add("struct",function($c){
     return new Mdl\Struct();
 });
 $container->add("article",function($c){
-    return new Mdl\Article($c->get("struct"));
+    return new Mdl\Article($c->get("parser"));
+});
+$container->add("parser",function($c){
+    return new \Mni\FrontYAML\Parser(
+        NULL,
+        $c->get("md")
+    );
+});
+$container->add("md",function($c){
+    return new MarkdownParser($c->get("parsedown"));
+});
+$container->add("parsedown",function($c){
+    return new ParsedownExtra();
 });
 
 $app=new App(

@@ -1,0 +1,10 @@
+{
+    "/":{
+        "rule":"index.md",
+        "type":"index"
+    },
+    "/about":{
+        "rule":"about.md",
+        "type":"about"
+    }
+}

@@ -7,7 +7,10 @@
         "boke0/clavicle": "^1.5",
         "boke0/scapula": "^1.6",
         "boke0/rose": "^1.1",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "mnapoli/front-yaml": "^1.6",
+        "erusev/parsedown-extra": "^0.7.1",
+        "mustache/mustache": "^2.13"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
