@@ -3,10 +3,10 @@
     "description": "マイクロフレームワークで、気持ちいいCMS作ってみました。",
     "type": "project",
     "require": {
-        "boke0/skull": "^2.0",
+        "boke0/skull": "^2.1",
         "boke0/clavicle": "^1.5",
-        "boke0/scapula": "^1.5",
-        "boke0/rose": "^1.0",
+        "boke0/scapula": "^1.6",
+        "boke0/rose": "^1.1",
         "twig/twig": "^3.0"
     },
     "require-dev": {
