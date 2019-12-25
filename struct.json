@@ -6,5 +6,13 @@
     "/about":{
         "rule":"about.md",
         "type":"about"
+    },
+    "/works":{
+        "rule":"works/",
+        "type":"works"
+    },
+    "/works/:id":{
+        "rule":"{{id}}",
+        "type":"work"
     }
 }
