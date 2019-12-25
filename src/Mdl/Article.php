@@ -16,10 +16,11 @@ class Article extends Mdl{
             $dir=scandir(self::CONTENT_DIR.$path);
             foreach($dir as $d){
                 if($d[0]==".") continue;
-                if(!is_dir(self::CONTENT_DIR."{$path}/{$d}")){
-                    $data["section"][$d]=$this->get("{$path}/{$d}");
-                }else if($d=="__index.md"){
+                if($d=="__index.md"){
                     array_merge($data["section"],$this->getMdContent($path));
+                }else{
+                    $data["section"][$d]=$this->get("{$path}{$d}");
+                    $data["section"][$d]["id"]=$d;
                 }
             }
             return $data;
@@ -28,9 +29,9 @@ class Article extends Mdl{
     public function getMdContent($path){
         $data=array();
         $text=$this->converter->parse(
-            file_get_contents(self::CONTENT_DIR)
+            file_get_contents(self::CONTENT_DIR.$path)
         );
-        array_merge($data,(array)$text->getYAML());
+        $data=array_merge($data,(array)$text->getYAML());
         $data["content"]=$text->getContent();
         return $data;
     }

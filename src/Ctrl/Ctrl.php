@@ -17,11 +17,10 @@ class Ctrl{
                 "csrftoken"=>Cookie::get("token")
             ]
         );
-        $res=$this->factory->createResponse($status,$reason)
-                           ->withHeader("Content-Type","application/json");
+        $res=$this->factory->createResponse($status,$reason);
         $body=$res->getBody();
         $body->write(
-            $this->twig->render($data)
+            $this->twig->render($tpl.".html",$array)
         );
         return $res->withBody($body);
     }

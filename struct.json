@@ -12,7 +12,7 @@
         "type":"works"
     },
     "/works/:id":{
-        "rule":"{{id}}",
-        "type":"work"
+        "rule":"works/{{id}}",
+        "type":"single"
     }
 }

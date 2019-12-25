@@ -80,6 +80,7 @@ $router=new Dispatcher(
 );
 
 $router->any("/install","installCtrl");
+$router->any("/install/signup","installCtrl","signup");
 $router->get("/asset","assetCtrl");
 $router->any("/admin","adminCtrl");
 $router->any("/admin/login","adminCtrl","login");
