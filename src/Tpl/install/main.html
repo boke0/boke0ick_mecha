@@ -13,11 +13,11 @@
         </header>
         <main>
             <form method="POST">
-                <input type="text" name="hostname">
-                <input type="text" name="dbname">
-                <input type="text" name="dbuser">
-                <input type="text" name="dbpasswd">
-                <input type="hidden" name="token" value="{{token}}">
+                <input type="text" name="hostname" placeholder="データベースホスト名">
+                <input type="text" name="dbname" placeholder="データベース名">
+                <input type="text" name="dbuser" placeholder="接続ユーザー">
+                <input type="text" name="dbpasswd" placeholder="接続パスワード">
+                <input type="hidden" name="token" value="{{csrftoken}}">
                 <div class="submit">
                     <button>インストール</button>
                 </div>
