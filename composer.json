@@ -4,7 +4,7 @@
     "type": "project",
     "require": {
         "boke0/skull": "^2.1",
-        "boke0/clavicle": "^1.5",
+        "boke0/clavicle": "^1.6",
         "boke0/scapula": "^1.6",
         "boke0/rose": "^1.1",
         "twig/twig": "^3.0",
