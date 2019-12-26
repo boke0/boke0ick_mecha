@@ -1,6 +1,6 @@
 {% extends "skeleton.tpl.html" %}
 {% block content %}
-    <h2>展示</h2>    
+    {{content}}
     {% for page in section %}
     <a href="works/{{page.id}}" class="work_list">
         <img src="{{page.thumbnail}}" alt="{{page.title}}">
