@@ -16,8 +16,12 @@ class Article extends Mdl{
             $dir=scandir(self::CONTENT_DIR.$path);
             foreach($dir as $d){
                 if($d[0]==".") continue;
+                if(substr($path,-1,1)!="/") $path.="/";
                 if($d=="__index.md"){
-                    array_merge($data["section"],$this->getMdContent($path));
+                    $data=array_merge(
+                        $data,
+                        $this->getMdContent("{$path}{$d}")
+                    );
                 }else{
                     $data["section"][$d]=$this->get("{$path}{$d}");
                     $data["section"][$d]["id"]=$d;

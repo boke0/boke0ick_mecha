@@ -4,7 +4,7 @@ namespace Boke0\Mechanism\Ctrl;
 
 class LoginCtrl extends Ctrl{
     public function handle($req,$args){
-        $userMdl=new Mdl\User();
+        $userMdl=$this->container->get("user");
         if($userMdl->session($req->getCookieParams()["boke0ick-jwt"])){
             return $this->createResponse()
                         ->withHeader("Location","/admin");

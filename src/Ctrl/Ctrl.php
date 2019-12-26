@@ -5,10 +5,15 @@ use Boke0\Mechanism\Cookie;
 
 class Ctrl{
     public function __construct($container){
-        $loader=new \Twig\Loader\FilesystemLoader(__DIR__."/../Tpl");
-        $this->twig=new \Twig\Environment($loader);
         $this->factory=$container->get("responseFactory");
         $this->container=$container;
+        $loader=new \Twig\Loader\FilesystemLoader(__DIR__."/../Tpl");
+        $this->twig=new \Twig\Environment($loader);
+        $plugin=$this->container->get("plugin");
+        $functions=$plugin->getFunctions();
+        foreach((array)$functions as $funciton){
+            $this->twig->addFunction($function);
+        }
     }
     public function twig($tpl,$array=[],$status="200",$reason="OK"){
         $array=array_merge(
