@@ -10,7 +10,8 @@
         "twig/twig": "^3.0",
         "mnapoli/front-yaml": "^1.6",
         "erusev/parsedown-extra": "^0.7.1",
-        "mustache/mustache": "^2.13"
+        "mustache/mustache": "^2.13",
+        "cosmicvelocity/media-types": ">=1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",

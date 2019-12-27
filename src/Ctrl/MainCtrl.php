@@ -11,6 +11,7 @@ class MainCtrl extends Ctrl{
         $article=$this->container->get("article");
         $detail=$struct->get($path);
         $data=$article->get($detail["datafile"]);
+        $data["menu"]=$article->getMenu($detail["datafile"]);
         $res=$this->createResponse();
         $body=$res->getBody();
         $body->write(

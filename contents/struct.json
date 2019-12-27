@@ -1,0 +1,18 @@
+{
+    "/":{
+        "rule":"./",
+        "type":"index"
+    },
+    "/about":{
+        "rule":"about.md",
+        "type":"about"
+    },
+    "/reference":{
+        "rule":"reference/",
+        "type":"list"
+    },
+    "/reference/:id":{
+        "rule":"reference/{{id}}",
+        "type":"single"
+    }
+}

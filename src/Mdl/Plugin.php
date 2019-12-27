@@ -4,7 +4,7 @@ namespace Boke0\Mechanism\Mdl;
 
 class Plugin extends Mdl{
     public function __construct(){
-        $plugin_dir_path=__DIR__."../../plugins/";
+        $plugin_dir_path=__DIR__."/../../plugins/";
         $plugin_dirs=scandir($plugin_dir_path);
         $this->endpoints=array();
         $this->functions=array();
@@ -13,10 +13,10 @@ class Plugin extends Mdl{
         foreach($plugin_dirs as $dir){
             if(file_exists($plugin_dir_path.$dir."/__construct.php")){
                 $plugin=require($plugin_dir_path.$dir."/__construct.php");
-                $this->endpoints=array_merge($this->endpoints,$plugin->getEndpoints());
-                $this->functions=array_merge($this->functions,$plugin->getFunctions());
-                $this->hooks=array_merge($this->hooks,$plugin->getHooks());
-                $this->menus=array_merge($this->menus,$plugin->getAdditionalMenus());
+                $this->endpoints+=$plugin->getEndpoints();
+                $this->functions+=$plugin->getFunctions();
+                $this->hooks+=$plugin->getHooks();
+                $this->menus+=$plugin->getAdditionalMenus();
             }
         }
     }

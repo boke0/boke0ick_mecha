@@ -12,7 +12,7 @@ class Plugin{
     public function endpoint(Endpoint $ep){
         array_push($this->endpoint,$ep);
     }
-    public function function(Function $function){
+    public function function(TemplateFunction $function){
         array_push($this->function,$function);
     }
     public function menu(Menu $menu){

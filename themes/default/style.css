@@ -1,0 +1,61 @@
+@font-face{
+    font-family: "kokumin";
+    src: url("/asset?filename=kokumin.ttf") format("truetype");
+}
+body{
+    background:#333;
+    margin:0;
+    color:#fff;
+    font-family: "kokumin";
+}
+header{
+    background:#444;
+    position:relative;
+}
+header::after{
+    content:"";
+    display:block;
+    width:100%;
+    padding-top:70.7%;
+}
+header #inner{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+#logo img{
+    height:300px;
+    filter:drop-shadow(0 0 10px #000);
+}
+header menu{
+    font-size:1.2rem;
+    padding:0;
+}
+header menu a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    display: inline-block;
+    padding:0 12px;
+}
+#letter{
+    width:600px;
+    margin:0 auto;
+    padding:64px 0;
+    text-align:center;
+}
+#letter h2{
+    margin:0;
+    padding-bottom:48px;
+}
+#letter p{
+    margin:0;
+    padding:16px 0;
+    font-size:1rem;
+}

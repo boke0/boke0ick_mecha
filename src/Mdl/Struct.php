@@ -7,7 +7,7 @@ use \Mustache_Engine as Engine;
 class Struct extends Mdl{
     public function __construct(){
         $this->struct=json_decode(
-            file_get_contents(__DIR__."/../../struct.json")
+            file_get_contents(__DIR__."/../../contents/struct.json")
         ,TRUE);
         $this->router=new Router();
         $this->engine=new Engine();
