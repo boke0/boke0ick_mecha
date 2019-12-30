@@ -3,30 +3,46 @@
 namespace Boke0\Mechanism\Mdl;
 
 class Article extends Mdl{
-    const CONTENT_DIR=__DIR__."/../../contents/";
-    public function __construct($converter){
+    const CONTENT_DIR=__DIR__."/../../contents/.";
+    public function __construct($converter,$struct){
         $this->converter=$converter;
+        $this->struct=$struct;
     }
     public function get($path){
+        $struct=$this->struct->get($path);
+        $path=$struct["datafile"];
         if(!is_dir(self::CONTENT_DIR.$path)){
-            return $this->getMdContent($path);
+            $dirs=explode("/",$path);
+            $dir_path=implode("/",array_slice($dirs,0,count($dirs)-1))."/";
         }else{
-            $data=array();
-            $data["section"]=array();
-            $dir=scandir(self::CONTENT_DIR.$path);
-            foreach($dir as $d){
-                if($d[0]==".") continue;
-                if($d=="__menu.md") continue;
-                if(substr($path,-1,1)!="/") $path.="/";
-                if($d=="__index.md"){
-                    $data+=$this->getMdContent("{$path}{$d}");
-                }else{
-                    $data["section"][$d]=$this->get("{$path}{$d}");
-                    $data["section"][$d]["id"]=$d;
-                }
-            }
-            return $data;
+            if(substr($path,-1,1)!="/") $path.="/";
+            $dir_path=$path;
+            $path=$path."__index";
         }
+        $data=$this->getMdContent($path.".md");
+        $data["permalink"]=$this->struct->link($struct["datafile"]);
+        $data["section"]=array();
+        $dir=scandir(self::CONTENT_DIR.$dir_path);
+        foreach($dir as $d){
+            if($d[0]==".") continue;
+            if($d=="__menu.md") continue;
+            if($d=="struct.json") continue;
+            if($d=="__index.md"){
+                $data["section"]["index"]=$this->getMdContent("{$dir_path}{$d}");
+                $data["section"]["index"]["permalink"]=$this->struct->link($dir_path);
+                continue;
+            }
+            $id=is_dir(self::CONTENT_DIR.$dir_path.$d)?$d:substr($d,0,-3);
+            if(!is_dir(self::CONTENT_DIR.$path)){
+                $data["section"]["pages"][$id]=$this->getMdContent("{$dir_path}{$d}");
+                $data["section"]["pages"][$id]["id"]=$id;
+                $data["section"]["pages"][$id]["permalink"]=$this->struct->link("{$dir_path}{$id}");
+            }else if($path!=$dir_path.$d){
+                $data["section"]["children"][$id]=$this->get("{$dir_path}{$id}");
+                $data["section"]["children"][$id]["id"]=$id;
+            }
+        }
+        return $data;
     }
     public function getMenu($path){
         if(substr($path,-1,1)=="/") $path=substr($path,0,strlen($path)-1);
@@ -37,7 +53,7 @@ class Article extends Mdl{
             $dir=scandir(self::CONTENT_DIR.$cpath);
             if(array_search("__menu.md",$dir)){
                 $text=$this->converter->parse(
-                    file_get_contents(self::CONTENT_DIR.$cpath."__menu.md")
+                    file_get_contents(self::CONTENT_DIR.$cpath."/__menu.md")
                 );
                 $menu=$text->getContent();
             }

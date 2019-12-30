@@ -1,9 +1,0 @@
-{% extends "skeleton.tpl.html" %}
-{% block content %}
-    {{content}}
-    {% for page in section %}
-    <a href="reference/{{page.id}}" class="work_list">
-        <h3>{{page.title}}</h3>
-    </a>
-    {% endfor %}
-{% endblock %}

@@ -45,9 +45,6 @@ $container->add("invite",function($c){
 $container->add("user",function($c){
     return new Mdl\User($c->get("db"),$c->get("invite"));
 });
-$container->add("theme",function($c){
-    return new Mdl\Theme(Cfg::get("theme"));
-});
 $container->add("plugin",function($c){
     return new Mdl\Plugin();
 });
@@ -55,7 +52,7 @@ $container->add("struct",function($c){
     return new Mdl\Struct();
 });
 $container->add("article",function($c){
-    return new Mdl\Article($c->get("parser"));
+    return new Mdl\Article($c->get("parser"),$c->get("struct"));
 });
 $container->add("parser",function($c){
     return new \Mni\FrontYAML\Parser(

@@ -1,18 +1,27 @@
-{
-    "/":{
-        "rule":"./",
-        "type":"index"
-    },
-    "/about":{
-        "rule":"about.md",
-        "type":"about"
-    },
-    "/reference":{
-        "rule":"reference/",
-        "type":"list"
-    },
-    "/reference/:id":{
-        "rule":"reference/{{id}}",
-        "type":"single"
+[
+    {
+        "theme":"default",
+        "routes":[
+            {
+                "path":"/",
+                "rule":"/",
+                "type":"index"
+            },
+            {
+                "path":"/about",
+                "rule":"/about",
+                "type":"about"
+            },
+            {
+                "path":"/reference",
+                "rule":"/reference",
+                "type":"article"
+            },
+            {
+                "path":"/reference/:id",
+                "rule":"/reference/:id",
+                "type":"article"
+            }
+        ]
     }
-}
+]
