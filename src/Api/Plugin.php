@@ -12,7 +12,7 @@ class Plugin{
     public function endpoint(Endpoint $ep){
         array_push($this->endpoint,$ep);
     }
-    public function function(TemplateFunction $function){
+    public function templateFunction(TemplateFunction $function){
         array_push($this->function,$function);
     }
     public function menu(Menu $menu){
@@ -21,7 +21,7 @@ class Plugin{
     public function hook(Hook $hook){
         array_push($this->hook,$hook);
     }
-    public function getFunctions(){
+    public function getTemplateFunctions(){
         return $this->function;
     }
     public function getEndpoints(){

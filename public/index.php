@@ -31,6 +31,9 @@ $container->add("installCtrl",function($c){
 $container->add("adminCtrl",function($c){
     return new Ctrl\AdminCtrl($c);
 });
+$container->add("loginCtrl",function($c){
+    return new Ctrl\LoginCtrl($c);
+});
 $container->add("assetCtrl",function($c){
     return new Ctrl\AssetCtrl($c);
 });
@@ -66,6 +69,15 @@ $container->add("md",function($c){
 $container->add("parsedown",function($c){
     return new ParsedownExtra();
 });
+$container->add("db",function($c){
+    return new Mdl\DB(
+        new \PDO(
+            Cfg::get("dsn"),
+            Cfg::get("dbuser"),
+            Cfg::get("dbpass")
+        )
+    );
+});
 
 $app=new App(
     $container->get("serverRequestFactory"),
@@ -80,7 +92,7 @@ $router->any("/install","installCtrl");
 $router->any("/install/signup","installCtrl","signup");
 $router->get("/asset","assetCtrl");
 $router->any("/admin","adminCtrl");
-$router->any("/admin/login","adminCtrl","login");
+$router->any("/admin/login","loginCtrl");
 $router->any("/admin/logout","adminCtrl","logout");
 $router->any("/admin/plugins","adminCtrl","plugins");
 $router->any("/admin/struct","adminCtrl","struct");
@@ -90,6 +102,10 @@ $router->any("/admin/comments","adminCtrl","comments");
 $router->any("/admin/users","adminCtrl","users");
 $router->any("/*","mainCtrl");
 
+$endpoints=$container->get("plugin")->getEndpoints();
+foreach($endpoints as $endpoint){
+    $router->any($endpoint->path,$endpoint);
+}
 $app->pipe($router);
 
 $app->run();

@@ -14,19 +14,33 @@ class LoginCtrl extends Ctrl{
                 $this->csrfTokenCheck();
                 $post=$req->getParsedBody();
                 $user=$userMdl->login($post["email"],$post["password"]);
+                $head=base64_encode(
+                    json_encode(
+                        [
+                            "alg"=>"HS256",
+                            "typ"=>"JWT"
+                        ]
+                    )
+                );
+                $body=base64_encode(
+                    json_encode(
+                        [
+                            "userId"=>$user["id"],
+                            "iat"=>time()
+                        ]
+                    )
+                );
+                $sig=hash("sha256",$head.".".$body.Cfg::get("jwt_secret"));
+                Cookie::set("boke0ick-jwt","{$head}.{$body}.$sig");
                 return $this->createResponse()
                             ->withHeader("Location","/admin");
             }catch(\Exception $e){
                 $message=$e->getMessage();
             }
         }else{
-            Session::set(
-                "csrftoken",
-                hash("sha256",uniqid().mt_rand())
-            );
             $this->csrfTokenSet();
         }
-        return $this->twig("login.html",[
+        return $this->twig("login",[
             "message"=>$message,
             "post"=>$post
         ]);   

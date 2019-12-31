@@ -5,45 +5,75 @@ use Boke0\Mechanism\Cookie;
 use Boke0\Mechanism\Mdl;
 
 class AdminCtrl extends Ctrl{
-    public function __construct(){
+    public function __construct($c){
+        parent::__construct($c);
         $this->userMdl=new Mdl\User();
     }
-    public function handle($req,$args){
-        return $this->twig("dash.html");
+    private function getSession($token){
+        $session=$this->userMdl->session($token);
+        return $session;
     }
-    public function login($req,$args){
-        if($req->getServerParams()["REQUEST_METHOD"]=="POST"){
-            $this->csrfTokenCheck();
-            $post=$req->getParsedBody();            
-            
-        }else{
-            Session::set(
-                "csrftoken",
-                hash("sha256",uniqid().mt_rand())
-            );
-            $this->csrfTokenSet();
+    public function handle($req,$args){
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
         }
-        return $this->twig("login.html");
+        return $this->twig("dash");
     }
     public function logout($req,$args){
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
         Cookie::delete("boke0ick-jwt");
     }
     public function plugins($req,$args){
-        return $this->twig("plugins.html");
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
+        return $this->twig("plugins");
     }
     public function struct($req,$args){
-        return $this->twig("struct.html");
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
+        return $this->twig("struct");
     }
     public function articles($req,$args){
-        return $this->twig("articles.html");
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
+        return $this->twig("articles");
     }
     public function themes($req,$args){
-        return $this->twig("themes.html");
-    }
-    public function comments($req,$args){
-        return $this->twig("comments.html");
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
+        return $this->twig("themes");
     }
     public function users($req,$args){
-        return $this->twig("users.html");
+        try{
+            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
+        }catch(\Exception $e){
+            return $this->createResponse(403,"Forbidden")
+                        ->withHeader("Location","/admin/login");
+        }
+        return $this->twig("users");
     }
 }

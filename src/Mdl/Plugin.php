@@ -14,13 +14,13 @@ class Plugin extends Mdl{
             if(file_exists($plugin_dir_path.$dir."/__construct.php")){
                 $plugin=require($plugin_dir_path.$dir."/__construct.php");
                 $this->endpoints+=$plugin->getEndpoints();
-                $this->functions+=$plugin->getFunctions();
+                $this->functions+=$plugin->getTemplateFunctions();
                 $this->hooks+=$plugin->getHooks();
                 $this->menus+=$plugin->getAdditionalMenus();
             }
         }
     }
-    public function getFunctions(){
+    public function getTemplateFunctions(){
         return $this->functions;
     }
     public function getHooks(){

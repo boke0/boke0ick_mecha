@@ -1,6 +1,7 @@
 <?php
 
 namespace Boke0\Mechanism\Mdl;
+use \Boke0\Mechanism\Cfg;
 
 class User extends Mdl{
     public function login($user,$password){
@@ -22,6 +23,15 @@ class User extends Mdl{
     public function get($id){
         $result=$this->query("select screen_name from user where id=:id")[0];
         return $result;
+    }
+    public function session($token){
+        list($head,$body,$sig)=explode(".",$token);
+        $certain=hash("sha256",$head.".".$body.Cfg::get("jwt_secret"));
+        if($certain!=$sig) throw new \Exception("Forbidden");
+        $head=json_decode(base64_decode($head));
+        $body=json_decode(base64_decode($body));
+        $id=$body->userId;
+        return $this->get($id);
     }
     public function changePasswd($id,$password){
         $this->query("update user set password=:password where id=:id",[
