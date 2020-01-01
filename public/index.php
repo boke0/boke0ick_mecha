@@ -91,15 +91,25 @@ $router=new Dispatcher(
 $router->any("/install","installCtrl");
 $router->any("/install/signup","installCtrl","signup");
 $router->get("/asset","assetCtrl");
-$router->any("/admin","adminCtrl");
 $router->any("/admin/login","loginCtrl");
-$router->any("/admin/logout","adminCtrl","logout");
-$router->any("/admin/plugins","adminCtrl","plugins");
-$router->any("/admin/struct","adminCtrl","struct");
-$router->any("/admin/articles","adminCtrl","articles");
-$router->any("/admin/themes","adminCtrl","themes");
-$router->any("/admin/comments","adminCtrl","comments");
-$router->any("/admin/users","adminCtrl","users");
+$router->any("/admin/*",function($req,$arg){
+    $admin_app=new App(
+        $container->get("serverRequestFactory"),
+        $container->get("uploadedFileFactory")
+    );
+    $admin_router=new Dispatcher($container->get("responseFactory"),$container);
+    $admin_router->any("/admin","adminCtrl");
+    $admin_router->any("/admin/logout","adminCtrl","logout");
+    $admin_router->any("/admin/plugins","adminCtrl","plugins");
+    $admin_router->any("/admin/struct","adminCtrl","struct");
+    $admin_router->any("/admin/articles","adminCtrl","articles");
+    $admin_router->any("/admin/themes","adminCtrl","themes");
+    $admin_router->any("/admin/comments","adminCtrl","comments");
+    $admin_router->any("/admin/users","adminCtrl","users");
+    $admin_app->pipe(new AdminUserMdlw($container->get("adminUserMdlw")));
+    $admin_app->pipe($admin_router);
+    return $admin_app->handle();
+});
 $router->any("/*","mainCtrl");
 
 $endpoints=$container->get("plugin")->getEndpoints();
