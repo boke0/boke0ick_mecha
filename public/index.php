@@ -10,6 +10,7 @@ use Boke0\Skull\Dispatcher;
 use Boke0\Rose\Container;
 use Boke0\Mechanism\Ctrl;
 use Boke0\Mechanism\Mdl;
+use Boke0\Mechanism\Mdlw;
 use Boke0\Mechanism\Cfg;
 use Boke0\Mechanism\MarkdownParser;
 
@@ -69,6 +70,9 @@ $container->add("md",function($c){
 $container->add("parsedown",function($c){
     return new ParsedownExtra();
 });
+$container->add("adminSessionMdlw",function($c){
+    return new Mdlw\AdminSessionMdlw($c->get("user"));
+});
 $container->add("db",function($c){
     return new Mdl\DB(
         new \PDO(
@@ -93,6 +97,7 @@ $router->any("/install/signup","installCtrl","signup");
 $router->get("/asset","assetCtrl");
 $router->any("/admin/login","loginCtrl");
 $router->any("/admin/*",function($req,$arg){
+    global $container;
     $admin_app=new App(
         $container->get("serverRequestFactory"),
         $container->get("uploadedFileFactory")
@@ -106,9 +111,9 @@ $router->any("/admin/*",function($req,$arg){
     $admin_router->any("/admin/themes","adminCtrl","themes");
     $admin_router->any("/admin/comments","adminCtrl","comments");
     $admin_router->any("/admin/users","adminCtrl","users");
-    $admin_app->pipe(new AdminUserMdlw($container->get("adminUserMdlw")));
+    $admin_app->pipe(new AdminUserMdlw($container->get("adminSessionMdlw")));
     $admin_app->pipe($admin_router);
-    return $admin_app->handle();
+    return $admin_app->handle($req);
 });
 $router->any("/*","mainCtrl");
 
