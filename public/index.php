@@ -44,10 +44,14 @@ $container->add("mainCtrl",function($c){
 
 /* モデル解決 */
 $container->add("invite",function($c){
+    $db=$c->get("db");
+    if(!$db) return FALSE;
     return new Mdl\Invite($c->get("db"));
 });
 $container->add("user",function($c){
-    return new Mdl\User($c->get("db"),$c->get("invite"));
+    $db=$c->get("db");
+    if(!$db) return FALSE;
+    return new Mdl\User($db,$c->get("invite"));
 });
 $container->add("plugin",function($c){
     return new Mdl\Plugin();
@@ -71,15 +75,23 @@ $container->add("parsedown",function($c){
     return new ParsedownExtra();
 });
 $container->add("adminSessionMdlw",function($c){
-    return new Mdlw\AdminSessionMdlw($c->get("user"));
+    return new Mdlw\AdminSessionMdlw($c->get("responseFactory"),$c->get("user"));
 });
 $container->add("db",function($c){
-    return new Mdl\DB(
-        new \PDO(
+    try{
+        $pdo=new \PDO(
             Cfg::get("dsn"),
             Cfg::get("dbuser"),
-            Cfg::get("dbpass")
-        )
+            Cfg::get("dbpass"),
+            [
+                \PDO::ATTR_EMULATE_PREPARES=>false
+            ]
+        );
+    }catch(\Exception $e){
+        return FALSE;
+    }
+    return new Mdl\DB(
+        $pdo
     );
 });
 
@@ -96,6 +108,7 @@ $router->any("/install","installCtrl");
 $router->any("/install/signup","installCtrl","signup");
 $router->get("/asset","assetCtrl");
 $router->any("/admin/login","loginCtrl");
+$router->any("/admin/logout","loginCtrl","logout");
 $router->any("/admin/*",function($req,$arg){
     global $container;
     $admin_app=new App(
@@ -104,14 +117,12 @@ $router->any("/admin/*",function($req,$arg){
     );
     $admin_router=new Dispatcher($container->get("responseFactory"),$container);
     $admin_router->any("/admin","adminCtrl");
-    $admin_router->any("/admin/logout","adminCtrl","logout");
     $admin_router->any("/admin/plugins","adminCtrl","plugins");
-    $admin_router->any("/admin/struct","adminCtrl","struct");
     $admin_router->any("/admin/articles","adminCtrl","articles");
     $admin_router->any("/admin/themes","adminCtrl","themes");
     $admin_router->any("/admin/comments","adminCtrl","comments");
     $admin_router->any("/admin/users","adminCtrl","users");
-    $admin_app->pipe(new AdminUserMdlw($container->get("adminSessionMdlw")));
+    $admin_app->pipe($container->get("adminSessionMdlw"));
     $admin_app->pipe($admin_router);
     return $admin_app->handle($req);
 });

@@ -1,9 +1,13 @@
 <?php
 
 namespace Boke0\Mechanism\Mdl;
+use \PDO;
 
 class DB{
-    public function query($sql){
+    public function __construct($pdo){
+        $this->dbh=$pdo;
+    }
+    public function query($sql,$values=[]){
         $stmt=$this->dbh->prepare($sql);
         foreach($values as $k=>$v){
             switch(gettype($v)){
@@ -23,5 +27,8 @@ class DB{
         }
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function lastInsertId($id="id"){
+        return $this->dbh->lastInsertId($id);
     }
 }

@@ -27,7 +27,7 @@ class Theme extends Mdl{
     public function assetExists($filename){
         return file_exists(__DIR__."/../../themes/{$this->theme}/{$filename}");
     }
-    private function mimeContentType($filename) {
+    public function mimeContentType($filename) {
         $mime_types = array(
             'txt' => 'text/plain',
             'htm' => 'text/html',

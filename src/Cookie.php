@@ -10,7 +10,7 @@ class Cookie{
         if($e==NULL) $e=time();
         setcookie($k,$v,$e,$p);
     }
-    static public function delete($k){
-        setcookie($k,NULL,0);
+    static public function delete($k,$p="/"){
+        setcookie($k,NULL,0,$p);
     }
 }

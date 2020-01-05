@@ -1,37 +1,22 @@
 <?php
 
 namespace Boke0\Mechanism\Ctrl;
+use \Boke0\Mechanism\Cookie;
 
 class LoginCtrl extends Ctrl{
     public function handle($req,$args){
         $userMdl=$this->container->get("user");
-        if($userMdl->session($req->getCookieParams()["boke0ick-jwt"])){
+        $cookie=$req->getCookieParams();
+        if(isset($cookie["boke0ick-jwt"])&&$userMdl->session($cookie["boke0ick-jwt"])){
             return $this->createResponse()
-                        ->withHeader("Location","/admin");
+                      ->withHeader("Location","/admin");
         }
         if($req->getServerParams()["REQUEST_METHOD"]=="POST"){
             try{
-                $this->csrfTokenCheck();
                 $post=$req->getParsedBody();
-                $user=$userMdl->login($post["email"],$post["password"]);
-                $head=base64_encode(
-                    json_encode(
-                        [
-                            "alg"=>"HS256",
-                            "typ"=>"JWT"
-                        ]
-                    )
-                );
-                $body=base64_encode(
-                    json_encode(
-                        [
-                            "userId"=>$user["id"],
-                            "iat"=>time()
-                        ]
-                    )
-                );
-                $sig=hash("sha256",$head.".".$body.Cfg::get("jwt_secret"));
-                Cookie::set("boke0ick-jwt","{$head}.{$body}.$sig");
+                $this->csrfTokenCheck($post["token"]);
+                $user=$userMdl->login($post["screen_name"],$post["password"]);
+                Cookie::set("boke0ick-jwt",$userMdl->createJWT($user),3600*24*12+time());
                 return $this->createResponse()
                             ->withHeader("Location","/admin");
             }catch(\Exception $e){
@@ -44,5 +29,10 @@ class LoginCtrl extends Ctrl{
             "message"=>$message,
             "post"=>$post
         ]);   
+    }
+    public function logout($req,$args){
+        Cookie::delete("boke0ick-jwt");
+        return $this->createResponse()
+            ->withHeader("Location","/admin/login");
     }
 }

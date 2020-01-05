@@ -1,3 +1,1 @@
-{
-    "theme":"default"
-}
+{"theme":"default","dsn":"mysql:host=boke0ick_mecha_mariadb_1;dbname=bm","dbuser":"root","dbpass":"password","jwt_secret":"d59c3f00cfe458f6790e387da15e1ceadab6c0a364c2fbab680529d0733b6ae0"}

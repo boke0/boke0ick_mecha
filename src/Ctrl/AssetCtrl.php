@@ -16,7 +16,9 @@ class AssetCtrl extends Ctrl{
             $body->write(
                 file_get_contents(__DIR__."/../../static/{$filename}")
             );
-            $res=$res->withBody($body);
+            $mime=$themeMdl->mimeContentType(__DIR__."/../../static/{$filename}");
+            return $res->withBody($body)
+                       ->withHeader("Content-Type",$mime);
         }else if($themeMdl->assetExists($filename)){
             $res=$themeMdl->asset($res,$filename);
         }else{

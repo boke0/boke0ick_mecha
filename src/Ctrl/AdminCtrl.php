@@ -7,10 +7,11 @@ use Boke0\Mechanism\Mdl;
 class AdminCtrl extends Ctrl{
     public function __construct($c){
         parent::__construct($c);
-        $this->userMdl=new Mdl\User();
+        $this->userMdl=$c->get("user");
     }
     private function getSession($token){
         $session=$this->userMdl->session($token);
+        var_dump($session,$token);
         return $session;
     }
     public function handle($req,$args){
@@ -21,15 +22,6 @@ class AdminCtrl extends Ctrl{
                         ->withHeader("Location","/admin/login");
         }
         return $this->twig("dash");
-    }
-    public function logout($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
-        Cookie::delete("boke0ick-jwt");
     }
     public function plugins($req,$args){
         try{

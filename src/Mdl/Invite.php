@@ -3,22 +3,25 @@
 namespace Boke0\Mechanism\Mdl;
 
 class Invite extends Mdl{
-    public function make($email){
+    public function __construct($db){
+        $this->db=$db;
+    }
+    public function create($email){
         $token=hash("sha256",uniqid().mt_rand().$email);
-        $this->query("insert into invite (email,token,datetime) values (:email,:token,now())",[
+        $this->db->query("insert into invite (screen_name,token,datetime) values (:email,:token,now())",[
             ":email"=>$email,
             ":token"=>$token
         ]);
-        return $token;
+       return $token;
     }
     public function get($token){
-        $result=$this->query("select id,email from invite where token=:token",[
+        $result=$this->db->query("select id,screen_name from invite where token=:token",[
             ":token"=>$token
         ])[0]; 
         return isset($result)?$result:FALSE;
     }
     public function delete($id){
-        return $result=$this->query("delete from invite where id=:id",[
+        return $result=$this->db->query("delete from invite where id=:id",[
             ":id"=>$id
         ]);
     }
