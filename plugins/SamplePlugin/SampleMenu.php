@@ -1,6 +1,6 @@
 <?php
 
-namespace Boke0\Mechanism\Plugins\SampleMenu;
+namespace Boke0\Mechanism\Plugins\SamplePlugin;
 use \Boke0\Mechanism\Api\Menu;
 
 /**
@@ -9,7 +9,7 @@ use \Boke0\Mechanism\Api\Menu;
  */
 class SampleMenu extends Menu{
     public function handle($req,$args){
-        $res=$this->createResponse();
+        $res=$this->twig();
         return $res;
     }
 }

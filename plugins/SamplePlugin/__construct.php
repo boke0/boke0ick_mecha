@@ -6,5 +6,7 @@ use \Boke0\Mechanism\Api\Plugin;
 
 $plugin=new Plugin();
 $plugin->endpoint(SampleEndpoint::class);
+$plugin->menu(SampleMenu::class);
+$plugin->templateExtension(SampleTemplateExtension::class);
 
 return $plugin;

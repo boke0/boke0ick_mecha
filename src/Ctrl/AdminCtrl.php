@@ -8,6 +8,13 @@ class AdminCtrl extends Ctrl{
     public function __construct($c){
         parent::__construct($c);
         $this->userMdl=$c->get("user");
+        $this->pluginMdl=$c->get("plugin");
+    }
+    public function twig($path,$arg){
+        $arg=array_merge($arg,[
+            "plugins"=>$this->pluginMdl->getAdditionalMenus()
+        ]);
+        return parent::twig($path,$arg);
     }
     private function getSession($token){
         $session=$this->userMdl->session($token);

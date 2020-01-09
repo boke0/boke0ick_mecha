@@ -5,7 +5,7 @@ namespace Boke0\Mechanism\Api;
 class Plugin{
     public function __construct(){
         $this->endpoint=array();
-        $this->function=array();
+        $this->extension=array();
         $this->hook=array();
         $this->menu=array();
     }
@@ -33,13 +33,13 @@ class Plugin{
         $ep_=array_merge($ep_,$this->parseRef($ref));
         array_push($this->endpoint,$ep_);
     }
-    public function templateFunction($function){
-        $funcion_=array(
-            "class"=>$function
+    public function templateExtension($ext){
+        $ext_=array(
+            "class"=>$ext
         );
-        $ref=new \ReflectionClass($function_);
-        $function_=array_merge($function_,$this->parseRef($ref));
-        array_push($this->function,$function_);
+        $ref=new \ReflectionClass($ext);
+        $function_=array_merge($ext_,$this->parseRef($ref));
+        array_push($this->extension,$ext_);
     }
     public function menu($menu){
         $menu_=array(
@@ -52,8 +52,8 @@ class Plugin{
     public function hook($hook){
         array_push($this->hook,$hook);
     }
-    public function getTemplateFunctions(){
-        return $this->function;
+    public function getTemplateExtensions(){
+        return $this->extension;
     }
     public function getEndpoints(){
         return $this->endpoint;

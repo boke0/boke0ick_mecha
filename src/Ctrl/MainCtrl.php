@@ -11,7 +11,7 @@ class MainCtrl extends Ctrl{
         $article=$this->container->get("article");
         $detail=$struct->get($path);
         $data=$article->get($path);
-        $theme=new Mdl\Theme($detail["theme"]);
+        $theme=new Mdl\Theme($detail["theme"],$this->container->get("plugin"));
         $data["menu"]=$article->getMenu($detail["datafile"]);
         $res=$this->createResponse();
         $body=$res->getBody();

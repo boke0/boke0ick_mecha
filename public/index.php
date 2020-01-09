@@ -122,6 +122,12 @@ $router->any("/admin/*",function($req,$arg){
     $admin_router->any("/admin/themes","adminCtrl","themes");
     $admin_router->any("/admin/comments","adminCtrl","comments");
     $admin_router->any("/admin/users","adminCtrl","users");
+    $menus=$container->get("plugin")->getAdditionalMenu();
+    foreach($menus as $menu){
+        $title=$menu["title"];
+        $instance=new $menu["class"]($container,$menu["view"]);
+        $admin_router->any("/admin/{$menu["slug"]}",$instance);
+    }
     $admin_app->pipe($container->get("adminSessionMdlw"));
     $admin_app->pipe($admin_router);
     return $admin_app->handle($req);

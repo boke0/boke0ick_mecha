@@ -3,12 +3,16 @@
 namespace Boke0\Mechanism\Mdl;
 
 class Theme extends Mdl{
-    public function __construct($theme){
+    public function __construct($theme,$plugin){
         $twig=new \Twig\Loader\FilesystemLoader(__DIR__."/../../themes/{$theme}");
         $this->twig=new \Twig\Environment($twig,[
             "autoescape"=>false,
             "charset"=>"utf-8",
         ]);
+        $functions=$plugin->getTemplateExtensions();
+        foreach((array)$functions as $function){
+            $this->twig->addExtension(new $function["class"]());
+        }
         $this->theme=$theme;
     }
     public function render($type,$data){
