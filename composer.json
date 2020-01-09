@@ -27,7 +27,9 @@
     "autoload":{
         "psr-4":{
             "Boke0\\Mechanism\\":"src/",
-            "Boke0\\Mechanism\\Test\\":"test/"
-        }
+            "Boke0\\Mechanism\\Test\\":"test/",
+            "Boke0\\Mechanism\\Plugins\\":"plugins/"
+        },
+        "exclude-from-classmap":[""]
     }
 }

@@ -130,7 +130,9 @@ $router->any("/*","mainCtrl");
 
 $endpoints=$container->get("plugin")->getEndpoints();
 foreach($endpoints as $endpoint){
-    $router->any($endpoint->path,$endpoint);
+    $method=$endpoint["method"];
+    $instance=new $endpoint["class"]($container->get("responseFactory"));
+    $router->$method($endpoint["path"],$instance);
 }
 $app->pipe($router);
 

@@ -2,6 +2,6 @@
 
 namespace Boke0\Mechanism\Api;
 
-abstract class Function{
+abstract class TemplateFunction{
     abstract public function handle();
 }
