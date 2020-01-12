@@ -43,7 +43,8 @@ class Plugin{
     }
     public function menu($menu){
         $menu_=array(
-            "class"=>$menu
+            "class"=>$menu,
+            "view"=>"/tpl"
         );
         $ref=new \ReflectionClass($menu);
         $menu_=array_merge($menu_,$this->parseRef($ref));

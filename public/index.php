@@ -84,7 +84,8 @@ $container->add("db",function($c){
             Cfg::get("dbuser"),
             Cfg::get("dbpass"),
             [
-                \PDO::ATTR_EMULATE_PREPARES=>false
+                \PDO::ATTR_EMULATE_PREPARES=>false,
+                \PDO::ATTR_ERRMODE=>\PDO::ERRMODE_EXCEPTION
             ]
         );
     }catch(\Exception $e){
@@ -133,7 +134,6 @@ $router->any("/admin/*",function($req,$arg){
     return $admin_app->handle($req);
 });
 $router->any("/*","mainCtrl");
-
 $endpoints=$container->get("plugin")->getEndpoints();
 foreach($endpoints as $endpoint){
     $method=$endpoint["method"];

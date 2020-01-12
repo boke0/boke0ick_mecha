@@ -10,15 +10,14 @@ class AdminCtrl extends Ctrl{
         $this->userMdl=$c->get("user");
         $this->pluginMdl=$c->get("plugin");
     }
-    public function twig($path,$arg){
+    public function twig($path,$arg=[],$status="200",$reason="OK"){
         $arg=array_merge($arg,[
-            "plugins"=>$this->pluginMdl->getAdditionalMenus()
+            "plugins"=>$this->pluginMdl->getAdditionalMenu()
         ]);
-        return parent::twig($path,$arg);
+        return parent::twig($path,$arg,$status,$reason);
     }
     private function getSession($token){
         $session=$this->userMdl->session($token);
-        var_dump($session,$token);
         return $session;
     }
     public function handle($req,$args){

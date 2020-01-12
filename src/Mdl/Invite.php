@@ -6,10 +6,10 @@ class Invite extends Mdl{
     public function __construct($db){
         $this->db=$db;
     }
-    public function create($email){
-        $token=hash("sha256",uniqid().mt_rand().$email);
-        $this->db->query("insert into invite (screen_name,token,datetime) values (:email,:token,now())",[
-            ":email"=>$email,
+    public function create($screen_name){
+        $token=hash("sha256",uniqid().mt_rand().$screen_name);
+        $this->db->query("insert into invite (screen_name,token,datetime) values (:screen_name,:token,now())",[
+            ":screen_name"=>$screen_name,
             ":token"=>$token
         ]);
        return $token;

@@ -28,7 +28,6 @@ class User extends Mdl{
         $result=$this->db->query("select screen_name from user where id=:id",[
             ":id"=>$id
         ])[0];
-        var_dump($result);
         return $result;
     }
     public function session($token){
@@ -38,7 +37,6 @@ class User extends Mdl{
         $head=json_decode(base64_decode($head));
         $body=json_decode(base64_decode($body));
         $id=$body->userId;
-        var_dump($id);
         return $this->get($id);
     }
     public function changePasswd($id,$password){

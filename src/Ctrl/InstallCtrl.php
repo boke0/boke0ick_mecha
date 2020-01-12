@@ -14,7 +14,7 @@ class InstallCtrl extends Ctrl{
             Cfg::set("dbuser",$post["dbuser"]);
             Cfg::set("dbpass",$post["dbpass"]);
             $db=$this->container->get("db");
-            $db->query(
+            $result=$db->exec(
 <<<EOT
 create table user(
     id int not null primary key auto_increment,
@@ -29,9 +29,10 @@ create table invite(
 ); 
 EOT
             );
+            var_dump($result);
             Cfg::set("jwt_secret",hash("sha256",uniqid().mt_rand()));
-            return $this->createResponse()
-                        ->withHeader("Location","/install/signup");
+            //return $this->createResponse()
+             //           ->withHeader("Location","/install/signup");
         }else{
             $this->csrfTokenSet();
         }

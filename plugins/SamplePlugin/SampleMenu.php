@@ -9,7 +9,7 @@ use \Boke0\Mechanism\Api\Menu;
  */
 class SampleMenu extends Menu{
     public function handle($req,$args){
-        $res=$this->twig();
+        $res=$this->twig("sample.html");
         return $res;
     }
 }

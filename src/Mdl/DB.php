@@ -12,21 +12,25 @@ class DB{
         foreach($values as $k=>$v){
             switch(gettype($v)){
                 case "integer":
-                    $stmt->bindValue($k,$v,PDO::PARAM_INT);
+                    $stmt->bindValue($k,$v,\PDO::PARAM_INT);
                     break;
                 case "string":
-                    $stmt->bindValue($k,$v,PDO::PARAM_STR);
+                    $stmt->bindValue($k,$v,\PDO::PARAM_STR);
                     break;
                 case "boolean":
-                    $stmt->bindValue($k,$v,PDO::PARAM_BOOL);
+                    $stmt->bindValue($k,$v,\PDO::PARAM_BOOL);
                     break;
                 case "NULL":
-                    $stmt->bindValue($k,$v,PDO::PARAM_NULL);
+                    $stmt->bindValue($k,$v,\PDO::PARAM_NULL);
                     break;
             }
         }
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function exec($sql,$values=[]){
+        $stmt=$this->dbh->query($sql);
+        return $stmt->execute($values);
     }
     public function lastInsertId($id="id"){
         return $this->dbh->lastInsertId($id);
