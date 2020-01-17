@@ -6,7 +6,12 @@ class Plugin{
     public function __construct(){
         $this->endpoint=array();
         $this->extension=array();
-        $this->hook=array();
+        $this->hook=array(
+            "create"=>array(),
+            "retrieve"=>array(),
+            "update"=>array(),
+            "delete"=>array()
+        );
         $this->menu=array();
     }
     public function parseRef($ref){
@@ -50,8 +55,8 @@ class Plugin{
         $menu_=array_merge($menu_,$this->parseRef($ref));
         array_push($this->menu,$menu_);
     }
-    public function hook($hook){
-        array_push($this->hook,$hook);
+    public function hook($event,$hook){
+        array_push($this->hook[$event],$hook);
     }
     public function getTemplateExtensions(){
         return $this->extension;

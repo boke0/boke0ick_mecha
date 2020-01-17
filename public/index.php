@@ -112,6 +112,12 @@ $router->any("/admin/login","loginCtrl");
 $router->any("/admin/logout","loginCtrl","logout");
 $router->any("/admin/*",function($req,$arg){
     global $container;
+    try{
+        $req->session=$container->get("user")->session($req->getCookieParams()["boke0ick-jwt"]);
+    }catch(\Exception $e){
+        return $container->get("responseFactory")->createResponse(403,"Forbidden")
+                    ->withHeader("Location","/admin/login");
+    }
     $admin_app=new App(
         $container->get("serverRequestFactory"),
         $container->get("uploadedFileFactory")

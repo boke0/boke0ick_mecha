@@ -16,62 +16,23 @@ class AdminCtrl extends Ctrl{
         ]);
         return parent::twig($path,$arg,$status,$reason);
     }
-    private function getSession($token){
-        $session=$this->userMdl->session($token);
-        return $session;
-    }
     public function handle($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
+        var_dump($req);
         return $this->twig("dash");
     }
     public function plugins($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
         return $this->twig("plugins");
     }
     public function struct($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
         return $this->twig("struct");
     }
     public function articles($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
         return $this->twig("articles");
     }
     public function themes($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
         return $this->twig("themes");
     }
     public function users($req,$args){
-        try{
-            $session=$this->getSession($req->getCookieParams()["boke0ick-jwt"]);
-        }catch(\Exception $e){
-            return $this->createResponse(403,"Forbidden")
-                        ->withHeader("Location","/admin/login");
-        }
         return $this->twig("users");
     }
 }
