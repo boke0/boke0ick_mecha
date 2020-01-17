@@ -7,6 +7,7 @@ class Article extends Mdl{
     public function __construct($converter,$struct){
         $this->converter=$converter;
         $this->struct=$struct;
+        $this->loader=array();
     }
     public function get($path){
         $struct=$this->struct->get($path);
@@ -38,11 +39,11 @@ class Article extends Mdl{
                 $data["section"]["pages"][$id]["id"]=$id;
                 $data["section"]["pages"][$id]["permalink"]=$this->struct->link("{$dir_path}{$id}");
             }else if($path!=$dir_path.$d){
-                $data["section"]["children"][$id]=$this->get("{$dir_path}{$id}");
+                $data["section"]["children"][$id]=$this->get("{$dir_path}{$id}")[0];
                 $data["section"]["children"][$id]["id"]=$id;
             }
         }
-        return $data;
+        return [$data,$this->loader];
     }
     public function getMenu($path){
         if(substr($path,-1,1)=="/") $path=substr($path,0,strlen($path)-1);
@@ -67,7 +68,8 @@ class Article extends Mdl{
             file_get_contents(self::CONTENT_DIR.$path)
         );
         $data+=(array)$text->getYAML();
-        $data["content"]=$text->getContent();
+        $data["content"]=$path;
+        $this->loader[$path]=$text->getContent();
         return $data;
     }
 }

@@ -10,7 +10,7 @@ class AssetCtrl extends Ctrl{
         $type=isset($qs["type"])?$qs["type"]:NULL;
         $filename=urldecode($qs["filename"]);
         $res=$this->createResponse();
-        $themeMdl=new Mdl\Theme(Cfg::get("theme"),$this->container->get("plugin"));
+        $themeMdl=new Mdl\Theme(Cfg::get("theme"),[],$this->container->get("plugin"));
         if($type=="static"||file_exists(__DIR__."/../../static/{$filename}")){
             $body=$res->getBody();
             $body->write(

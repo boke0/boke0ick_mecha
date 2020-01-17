@@ -6,7 +6,7 @@ use \Boke0\Mechanism\Api\TemplateExtension;
 class SampleTemplateExtension extends TemplateExtension{
     public function getFunctions(){
         return [
-            new Twig_SimpleFunction("sample",function(){
+            new \Twig\TwigFunction("sample",function(){
                 echo "sample function this is";
             })
         ];

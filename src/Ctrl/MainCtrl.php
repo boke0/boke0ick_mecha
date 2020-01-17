@@ -10,13 +10,20 @@ class MainCtrl extends Ctrl{
         $struct=$this->container->get("struct");
         $article=$this->container->get("article");
         $detail=$struct->get($path);
-        $data=$article->get($path);
-        $theme=new Mdl\Theme($detail["theme"],$this->container->get("plugin"));
+        list($data,$loader)=$article->get($path);
         $data["menu"]=$article->getMenu($detail["datafile"]);
+        $theme=new Mdl\Theme(
+            $detail["theme"],
+            $loader,
+            $this->container->get("plugin")
+        );
         $res=$this->createResponse();
         $body=$res->getBody();
         $body->write(
-            $theme->render($detail["type"],$data)
+            $theme->render(
+                $detail["type"],
+                $data
+            )
         );
         return $res->withBody($body);
     }
