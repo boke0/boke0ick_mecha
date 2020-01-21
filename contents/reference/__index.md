@@ -1,6 +1,6 @@
 ---
-title: API仕様
-type: article
+title: 取扱説明書
+order: 3 
 ---
 ささやかながらAPIの仕様書及び取扱説明書を作らせていただきました。
 

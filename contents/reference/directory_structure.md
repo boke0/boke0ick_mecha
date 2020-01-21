@@ -1,5 +1,4 @@
 ---
 title: プラグインの開発
-type: article
+order: 3
 ---
-

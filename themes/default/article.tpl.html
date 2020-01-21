@@ -4,7 +4,7 @@
         <a href="{{section.index.permalink}}" class="work_list">
             <h3>{{section.index.title}}</h3>
         </a>
-        {% for page in section.pages %}
+        {% for page in section.pages|sort((a,b)=> a.order <=> b.order) %}
         <a href="{{page.permalink}}" class="work_list">
             <h3>{{page.title}}</h3>
         </a>
@@ -12,7 +12,7 @@
     </div>
     <div id="content">
         <h1>{{title}}</h1>
-        {{content}}
+        {% include(content) %}
     </div>
     <div class="cf"></div>
 {% endblock %}

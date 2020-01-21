@@ -12,6 +12,7 @@ class Struct extends Mdl{
         $this->linkmaker=new Router();
         foreach($this->struct as $group){
             foreach($group["routes"] as $v){
+                if(empty($v["rule"])) $v["rule"]=$v["path"];
                 $v["theme"]=$group["theme"];
                 $this->router->any($v["path"],$v);
                 $this->linkmaker->any($v["rule"],$v);

@@ -6,13 +6,6 @@ class Plugin{
     public function __construct(){
         $this->endpoint=array();
         $this->extension=array();
-        $this->hook=array(
-            "create"=>array(),
-            "retrieve"=>array(),
-            "update"=>array(),
-            "delete"=>array()
-        );
-        $this->menu=array();
     }
     public function parseRef($ref){
         $data=array();
@@ -46,28 +39,10 @@ class Plugin{
         $function_=array_merge($ext_,$this->parseRef($ref));
         array_push($this->extension,$ext_);
     }
-    public function menu($menu){
-        $menu_=array(
-            "class"=>$menu,
-            "view"=>"/tpl"
-        );
-        $ref=new \ReflectionClass($menu);
-        $menu_=array_merge($menu_,$this->parseRef($ref));
-        array_push($this->menu,$menu_);
-    }
-    public function hook($event,$hook){
-        array_push($this->hook[$event],$hook);
-    }
     public function getTemplateExtensions(){
         return $this->extension;
     }
     public function getEndpoints(){
         return $this->endpoint;
-    }
-    public function getHooks(){
-        return $this->hook;
-    }
-    public function getAdditionalMenus(){
-        return $this->menu;
     }
 }
