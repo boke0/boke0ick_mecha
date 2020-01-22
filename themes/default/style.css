@@ -2,11 +2,25 @@
     font-family: "kokumin";
     src: url("/asset?theme=default&filename=kokumin.ttf") format("truetype");
 }
+@keyframes blurin{
+    from{
+        opacity:1;
+        filter:drop-shadow(0 0 10px #000) blur(100px);
+    }
+    to{
+        opacity:1;
+        filter:drop-shadow(0 0 10px #000) blur(0);
+    }
+}
 body{
     background:#333;
     margin:0;
     color:#fff;
     font-family: "kokumin";
+    writing-mode: vertical-rl;
+    height:100vh;
+    min-width:100vw;
+    overflow-y:hidden;
 }
 a{
     color:#fff;
@@ -16,29 +30,29 @@ a{
 header{
     background:#444;
     position:relative;
-    padding:120px 24px;
     display:flex;
     justify-content: center;
+    align-items:center;
+    width:100vw;
+    box-sizing:border-box;
+    height:100%;
 }
 header #logo img{
     max-height:300px;
-    filter:drop-shadow(0 0 10px #000);
+    opacity:0;
+    animation:blurin forwards ease-in-out 1.0s 1.0s;
 }
 
 .letter{
     max-width:600px;
     margin:0 auto;
-    padding:80px 24px;
-    text-align:center;
+    padding:80px;
 }
 .letter h2{
-    margin:0;
-    padding-bottom:32px;
+    margin:0 48px;
 }
 .letter p{
-    margin:0;
-    padding:16px 0;
-    font-size:1rem;
+    margin:0 32px;
 }
 main{
     overflow:hidden;
@@ -73,6 +87,5 @@ main{
 }
 footer{
     background:#222;
-    text-align:center;
-    padding:32px 16px;
+    padding:80px 64px;
 }
