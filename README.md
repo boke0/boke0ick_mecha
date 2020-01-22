@@ -26,22 +26,22 @@ composer install
 
 ## テーマのインストール
 
-```themes/```ディレクトリにディレクトリごとコピーしてください。
+themes/ディレクトリにディレクトリごとコピーしてください。
 
 ## プラグインのインストール
 
-```plugins/```
+plugins/
 ディレクトリにプラグインのディレクトリごとコピーしてください。
 このとき、
-```plugins/<プラグイン名>/__construct.php```
+plugins/<プラグイン名>/__construct.php
 というパスに
-```__construct.php```
+\_\_construct.php
 が設置されるようにしてください。
 
 ## テーマ作成
 
 テーマは
-```themes/```
+themes/
 ディレクトリ内にディレクトリを作成し、
 その中にtwig用のHTMLテンプレートファイルを設置するだけで作成することができます。
 
@@ -50,18 +50,18 @@ composer install
 テーマのソースコードを公開したい場合は、
 テーマのディレクトリごとGitで管理してしまうことをおすすめします。
 そうすることで、利用者は
-```themes/```
+themes/
 ディレクトリ下でリポジトリをcloneするだけで利用を始めることができます。
 
 ## プラグイン開発
 
 プラグインは
-```plugins/```
+plugins/
 ディレクトリ内にディレクトリを作成し、
 その中にPHPファイルを設置することで作成できます。
 
 プラグインのディレクトリ内には、最低限
-```__construct.php```
+\_\_construct.php
 を設置する必要があります。ボケマリック機構本体からはこのファイルが呼び出され、
 このファイルに記述されている通りにプラグインの挙動を設定します。
 
@@ -82,16 +82,13 @@ return $plugin;
 ```
 
 プラグインの名前空間はPsr-4に従い、
-```
 Boke0\Mechanism\Plugins\<プラグイン名>
-```
 としてください。
 
 このプログラム内で一つの
-```
 Boke0\Mechanism\Api\Plugin
-```
-クラスを継承したオブジェクトを作成し、拡張機能を設定してオブジェクトを返却してください。
+クラスを継承したオブジェクトを作成し、
+拡張機能を設定してオブジェクトを返却してください。
 
 ### API使用
 
@@ -125,10 +122,21 @@ class SampleEndpoint extends Endpoint{
 }
 ```
 エンドポイントを作成するときは、
-```Boke0\Mechanism\Api\Endpoint```
-を継承したクラスを定義してください。EndpointはPSR-15で定められているRequestHandlerインターフェースを実装している必要があります。
+Boke0\Mechanism\Api\Endpoint
+を継承したクラスを定義してください。
+
+例のように、ドキュメントコメントでパスを設定しましょう。
+パスだけでなく、リクエスト時のメソッドも設定することができます。
+```
+/**
+ * @path /sampleendpoint/insert
+ * @method POST
+ */
+```
+
+クラスはPSR-15で定められているRequestHandlerインターフェースを実装している必要があります。
 EndpointクラスにはPSR-7準拠のレスポンスオブジェクトを生成するメソッド
-```Endpoint::createResponse($status_code,$reason);```
+Endpoint::createResponse($status_code,$reason);
 が定義されているので、これを呼び出してレスポンスを返却してください。
 
 #### テンプレートエンジンの拡張
@@ -164,7 +172,7 @@ class SampleTemplateExtension extends TemplateExtension{
 ```
 
 Twigの拡張を行うときは、
-```Boke0\Mechanism\Api\TemplateExtension```
+Boke0\Mechanism\Api\TemplateExtension
 クラスを継承したクラスを定義してください。
 
 ### プラグインの公開
