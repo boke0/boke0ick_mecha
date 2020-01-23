@@ -24,6 +24,76 @@ cd boke0ick_mecha
 composer install
 ```
 
+## ディレクトリ構造
+
+```
+.
+├── Dockerfile
+├── README.md
+├── composer.json
+├── composer.lock
+├── contents ...記事のMarkdownや設定ファイルを置く場所
+├── default.conf
+├── docker-compose.yml
+├── plugins ...プラグインをインストールする場所
+├── public ...公開ディレクトリ
+├── src ...本体ソースコード
+├── static ...テーマに依存しない素材などを置く場所
+├── themes ...テーマをインストールする場所
+└── vendor
+```
+
+## サイトの構造の設定
+
+URL設計はcontents/struct.jsonに記述します。
+
+```JSON
+[
+    {
+        "theme":"default",
+        "routes":[
+            {
+                "path":"/",
+                "type":"index"
+            },
+            {
+                "path":"/about",
+                "type":"about"
+            }
+        ]
+    },
+    {
+        "theme":"hoge",
+        "routes":[
+            {
+                "path":"/article/:id",
+                "type":"article"
+            },
+            {
+                "path":"/news/:id",
+                "rule":"/n/files/:id"
+                "type":"article"
+            }
+        ]
+    }
+
+]
+```
+
+上記の設定では、/にアクセスしたときはdefaultテーマのindex.tpl.htmlがテンプレートとして適用されてます。
+
+## 記事の投稿
+
+記事はMarkdownを用いて記述してください。
+
+このとき、HugoなどでもサポートされているYAML形式のFrontMatterを記述し、メタ情報を設定することができます。
+```Markdown
+title: タイトルhogehoge
+date: 2020/1/24
+---
+こんちは
+```
+
 ## テーマのインストール
 
 themes/ディレクトリにディレクトリごとコピーしてください。
@@ -138,6 +208,26 @@ Boke0\Mechanism\Api\Endpoint
 EndpointクラスにはPSR-7準拠のレスポンスオブジェクトを生成するメソッド
 Endpoint::createResponse($status_code,$reason);
 が定義されているので、これを呼び出してレスポンスを返却してください。
+
+また、Endpoint::twig($filename,$placeholder,$status_code,$reason)メソッドを用いることで、Twigでテンプレートを描画したレスポンスを直接取得することができます。
+
+```PHP
+<?php
+
+namespace Boke0\Mechanism\Plugins\SamplePlugin;
+use \Boke0\Mechanism\Api\Endpoint;
+
+/**
+ * @path /sampleendpoint
+ */
+class SampleEndpoint extends Endpoint{
+    public function handle($req,$args){
+        return $this->twig("sample.tpl.html");
+    }
+}
+```
+
+テンプレートはプラグインのディレクトリ内のtpl/ディレクトリのファイルを参照します。
 
 #### テンプレートエンジンの拡張
 
