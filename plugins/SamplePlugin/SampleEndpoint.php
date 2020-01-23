@@ -8,9 +8,6 @@ use \Boke0\Mechanism\Api\Endpoint;
  */
 class SampleEndpoint extends Endpoint{
     public function handle($req,$args){
-        $res=$this->createResponse();
-        $body=$res->getBody();
-        $body->write("Hello world!");
-        return $res->withBody($body);
+        return $this->twig("sample.tpl.html");
     }
 }
