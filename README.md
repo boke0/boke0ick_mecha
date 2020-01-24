@@ -80,7 +80,19 @@ URL設計はcontents/struct.jsonに記述します。
 ]
 ```
 
-上記の設定では、/にアクセスしたときはdefaultテーマのindex.tpl.htmlがテンプレートとして適用されてます。
+上記の設定では、以下のようにルーティングされます
+
+| URLの例 | テーマ | 適用されるテンプレート | 記事のパス |
+|---------|--------|------------------------|------------|
+|/        |default |index.tpl.html          |contents/__index.md|
+|/about   |default |about.tpl.html          |contents/about.md|
+|/article/0001|hoge|article.tpl.html        |contents/article/0001.md|
+|/news/001|hoge    |article.tpl.html        |contents/n/files/001.md|
+
+例の用に、基本的にはURLと同じルールで記事ファイルを参照します。
+例外的なルールを適用したい場合は、ruleディレクティブを指定してください。
+
+contentsにおける参照先がディレクトリの場合は、そのディレクトリの__index.mdをロードします。
 
 ## 記事の投稿
 
