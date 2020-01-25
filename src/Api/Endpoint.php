@@ -15,7 +15,7 @@ abstract class Endpoint{
             "charset"=>"utf-8",
         ]);
         $this->twig->addFunction(
-            new \Twig\SimpleFunction("csrf_field",function(){
+            new \Twig\TwigFunction("csrf_field",function(){
                 $token=Cookie::get("csrftoken");
                 return "<input type=\"hidden\" name=\"csrftoken\" value=\"{$token}\">";
             })
