@@ -2,6 +2,8 @@
 
 namespace Boke0\Mechanism\Api;
 use Twig;
+use \Boke0\Mechanism\Cookie;
+
 abstract class Endpoint{
     public function __construct($factory){
         $trace=debug_backtrace();
@@ -12,6 +14,12 @@ abstract class Endpoint{
             "autoescape"=>false,
             "charset"=>"utf-8",
         ]);
+        $this->twig->addFunction(
+            new \Twig\TwigFunction("csrf_field",function(){
+                $token=Cookie::get("csrftoken");
+                return "<input type=\"hidden\" name=\"csrftoken\" value=\"{$token}\">";
+            })
+        );
         $this->factory=$factory;
     }
     abstract public function handle($req,$args);

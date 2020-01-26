@@ -24,6 +24,88 @@ cd boke0ick_mecha
 composer install
 ```
 
+## ディレクトリ構造
+
+```
+.
+├── Dockerfile
+├── README.md
+├── composer.json
+├── composer.lock
+├── contents ...記事のMarkdownや設定ファイルを置く場所
+├── default.conf
+├── docker-compose.yml
+├── plugins ...プラグインをインストールする場所
+├── public ...公開ディレクトリ
+├── src ...本体ソースコード
+├── static ...テーマに依存しない素材などを置く場所
+├── themes ...テーマをインストールする場所
+└── vendor
+```
+
+## サイトの構造の設定
+
+URL設計はcontents/struct.jsonに記述します。
+
+```JSON
+[
+    {
+        "theme":"default",
+        "routes":[
+            {
+                "path":"/",
+                "type":"index"
+            },
+            {
+                "path":"/about",
+                "type":"about"
+            }
+        ]
+    },
+    {
+        "theme":"hoge",
+        "routes":[
+            {
+                "path":"/article/:id",
+                "type":"article"
+            },
+            {
+                "path":"/news/:id",
+                "rule":"/n/files/:id"
+                "type":"article"
+            }
+        ]
+    }
+
+]
+```
+
+上記の設定では、以下のようにルーティングされます
+
+| URLの例 | テーマ | 適用されるテンプレート | 記事のパス |
+|---------|--------|------------------------|------------|
+|/        |default |index.tpl.html          |contents/__index.md|
+|/about   |default |about.tpl.html          |contents/about.md|
+|/article/0001|hoge|article.tpl.html        |contents/article/0001.md|
+|/news/001|hoge    |article.tpl.html        |contents/n/files/001.md|
+
+例の用に、基本的にはURLと同じルールで記事ファイルを参照します。
+例外的なルールを適用したい場合は、ruleディレクティブを指定してください。
+
+contentsにおける参照先がディレクトリの場合は、そのディレクトリの__index.mdをロードします。
+
+## 記事の投稿
+
+記事はMarkdownを用いて記述してください。
+
+このとき、HugoなどでもサポートされているYAML形式のFrontMatterを記述し、メタ情報を設定することができます。
+```Markdown
+title: タイトルhogehoge
+date: 2020/1/24
+---
+こんちは
+```
+
 ## テーマのインストール
 
 themes/ディレクトリにディレクトリごとコピーしてください。
@@ -52,6 +134,11 @@ themes/
 そうすることで、利用者は
 themes/
 ディレクトリ下でリポジトリをcloneするだけで利用を始めることができます。
+
+テーマで独自の素材を利用したい場合は、テーマのディレクトリ内に素材を設置し、以下のURIを指定してください。
+```
+/asset?theme=<テーマ名>&filename=<ディレクトリ内のパス>
+```
 
 ## プラグイン開発
 
@@ -138,6 +225,33 @@ Boke0\Mechanism\Api\Endpoint
 EndpointクラスにはPSR-7準拠のレスポンスオブジェクトを生成するメソッド
 Endpoint::createResponse($status_code,$reason);
 が定義されているので、これを呼び出してレスポンスを返却してください。
+
+また、Endpoint::twig($filename,$placeholder,$status_code,$reason)メソッドを用いることで、Twigでテンプレートを描画したレスポンスを直接取得することができます。
+ここで用いられるTwigはプラグインのディレクトリのtpl/ディレクトリを参照します。
+また、csrf_field()関数をコールすることで、ボケマリック機構本体に適用されているCSRF対策を利用することができます。
+
+プラグインのエンドポイントで独自の素材を利用したい場合は、/assetsディレクトリ内に素材を設置し、以下のURIを指定してください。
+```
+/asset?plugin=<プラグイン名>&filename=<assetsディレクトリ以下のパス>
+```
+
+```PHP
+<?php
+
+namespace Boke0\Mechanism\Plugins\SamplePlugin;
+use \Boke0\Mechanism\Api\Endpoint;
+
+/**
+ * @path /sampleendpoint
+ */
+class SampleEndpoint extends Endpoint{
+    public function handle($req,$args){
+        return $this->twig("sample.tpl.html");
+    }
+}
+```
+
+テンプレートはプラグインのディレクトリ内のtpl/ディレクトリのファイルを参照します。
 
 #### テンプレートエンジンの拡張
 
