@@ -36,7 +36,7 @@ class Struct extends Mdl{
         $result=$this->linkmaker->match($uri,"GET");
         $data=$result["callable"];
         $path=$data["path"];
-        foreach($result["params"] as $k=>$param){
+        foreach((array) $result["params"] as $k=>$param){
             $path=str_replace(":{$k}",$param,$path);
         }
         return $path;
