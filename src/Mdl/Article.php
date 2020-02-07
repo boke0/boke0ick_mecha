@@ -34,12 +34,14 @@ class Article extends Mdl{
                 continue;
             }
             $id=is_dir(self::CONTENT_DIR.$dir_path.$d)?$d:substr($d,0,-3);
-            if(!is_dir(self::CONTENT_DIR.$path)){
+            if(!is_dir(self::CONTENT_DIR.$dir_path.$id)){
                 $data["section"]["pages"][$id]=$this->getMdContent("{$dir_path}{$d}");
                 $data["section"]["pages"][$id]["id"]=$id;
                 $data["section"]["pages"][$id]["permalink"]=$this->struct->link("{$dir_path}{$id}");
             }else if($path!=$dir_path.$d){
-                $data["section"]["children"][$id]=$this->get("{$dir_path}{$id}")[0];
+                if(file_exists(self::CONTENT_DIR."{$dir_path}{$id}/__index.md")){
+                    $data["section"]["children"][$id]=$this->getMdContent("{$dir_path}{$id}/__index.md");
+                }
                 $data["section"]["children"][$id]["id"]=$id;
             }
         }
