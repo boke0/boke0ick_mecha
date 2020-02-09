@@ -6,6 +6,7 @@ use Boke0\Scapula\App;
 use Boke0\Clavicle\ResponseFactory;
 use Boke0\Clavicle\ServerRequestFactory;
 use Boke0\Clavicle\UploadedFileFactory;
+use Boke0\Clavicle\StreamFactory;
 use Boke0\Skull\Dispatcher;
 use Boke0\Rose\Container;
 use Boke0\Mechanism\Ctrl;
@@ -23,6 +24,9 @@ $container->add("serverRequestFactory",function($c){
 });
 $container->add("uploadedFileFactory",function($c){
     return new UploadedFileFactory();
+});
+$container->add("streamFactory",function($c){
+    return new StreamFactory();
 });
 
 /* コントローラ解決 */
@@ -69,7 +73,8 @@ $container->add("csrfMdlw",function($c){
 });
 $app=new App(
     $container->get("serverRequestFactory"),
-    $container->get("uploadedFileFactory")
+    $container->get("uploadedFileFactory"),
+    $container->get("streamFactory")
 );
 $router=new Dispatcher(
     $container->get("responseFactory"),
