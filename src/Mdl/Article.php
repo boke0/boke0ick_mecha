@@ -70,6 +70,7 @@ class Article extends Mdl{
         $text=$this->converter->parse(
             file_get_contents(self::CONTENT_DIR.$path)
         );
+        $data["datetime"]=filemtime(self::CONTENT_DIR.$path);
         $data+=(array)$text->getYAML();
         $data["content"]=$path;
         $this->loader[$path]=$text->getContent();
