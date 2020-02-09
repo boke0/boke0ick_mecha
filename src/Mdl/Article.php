@@ -43,6 +43,7 @@ class Article extends Mdl{
                     $data["section"]["children"][$id]=$this->getMdContent("{$dir_path}{$id}/__index.md");
                 }
                 $data["section"]["children"][$id]["id"]=$id;
+                $data["section"]["children"][$id]["permalink"]=$this->struct->link("{$dir_path}{$id}");
             }
         }
         return [$data,$this->loader];
