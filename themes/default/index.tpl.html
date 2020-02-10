@@ -1,6 +1,8 @@
 {% extends "skeleton.tpl.html" %}
 {% block content %}
 <div class="letter">
-    {% include(section.content) %}
+    {% for section in site.sections %}
+        {{section.title}}
+    {% endfor %}
 </div>
 {% endblock %}

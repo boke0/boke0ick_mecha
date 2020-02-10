@@ -3,7 +3,7 @@
 namespace Boke0\Mechanism\Mdl;
 
 class Node{
-    const CONTENT_DIR=__DIR__."/../../contents";
+    const CONTENT_DIR=__DIR__."/../../contents/";
     public function __construct($path,$converter,$env){
         $this->converter=$converter;
         $this->path=$path;
