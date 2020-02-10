@@ -7,9 +7,9 @@ class Menu extends Node{
         if(substr($path,-1,1)!="/") $path=substr($path,0,-1);
         $ds=explode("/",$path);
         $menu=array();
-        $cpath=self::CONTENT_DIR;
+        $cpath="";
         foreach($ds as $d){
-            $dir=scandir($cpath);
+            $dir=scandir(self::CONTENT_DIR.$cpath);
             if(array_search("__menu.md",$dir)){
                 $this->path=$cpath."/__menu.md";
             }

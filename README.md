@@ -100,6 +100,7 @@ contentsにおける参照先がディレクトリの場合は、そのディレ
 
 このとき、HugoなどでもサポートされているYAML形式のFrontMatterを記述し、メタ情報を設定することができます。
 ```Markdown
+---
 title: タイトルhogehoge
 date: 2020/1/24
 ---
