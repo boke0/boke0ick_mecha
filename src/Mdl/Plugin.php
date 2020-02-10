@@ -2,7 +2,7 @@
 
 namespace Boke0\Mechanism\Mdl;
 
-class Plugin extends Mdl{
+class Plugin{
     public function __construct(){
         $plugin_dir_path=__DIR__."/../../plugins/";
         $plugin_dirs=scandir($plugin_dir_path);

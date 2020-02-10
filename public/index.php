@@ -43,18 +43,9 @@ $container->add("mainCtrl",function($c){
     return new Ctrl\MainCtrl($c);
 });
 
-/* モデル解決 */
+/* 一部モデル解決 */
 $container->add("plugin",function($c){
     return new Mdl\Plugin();
-});
-$container->add("theme",function($c){
-    return new Mdl\Theme();
-});
-$container->add("struct",function($c){
-    return new Mdl\Struct();
-});
-$container->add("article",function($c){
-    return new Mdl\Article($c->get("parser"),$c->get("struct"));
 });
 $container->add("parser",function($c){
     return new \Mni\FrontYAML\Parser(

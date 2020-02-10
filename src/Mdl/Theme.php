@@ -2,12 +2,9 @@
 
 namespace Boke0\Mechanism\Mdl;
 
-class Theme extends Mdl{
-    public function __construct($theme,$loader,$plugin){
-        $twig=new \Twig\Loader\ChainLoader([
-            new \Twig\Loader\FilesystemLoader(__DIR__."/../../themes/{$theme}"),
-            new \Twig\Loader\ArrayLoader($loader)
-        ]);
+class Theme{
+    public function __construct($theme,$plugin){
+        $twig=new \Twig\Loader\FilesystemLoader(__DIR__."/../../themes/{$theme}");
         $this->twig=new \Twig\Environment($twig,[
             "autoescape"=>false,
             "charset"=>"utf-8",
@@ -17,6 +14,9 @@ class Theme extends Mdl{
             $this->twig->addExtension(new $function["class"]());
         }
         $this->theme=$theme;
+    }
+    public function getEnvironment(){
+        return $this->twig;
     }
     public function render($type,$data){
         return $this->twig->render("{$type}.tpl.html",$data);

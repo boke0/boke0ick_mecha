@@ -20,7 +20,7 @@ class AssetCtrl extends Ctrl{
         }
         switch($type){
             case "theme":
-                $themeMdl=new Mdl\Theme($qs["theme"],[],$this->container->get("plugin"));
+                $themeMdl=new Mdl\Theme($qs["theme"],$this->container->get("plugin"));
                 if($themeMdl->assetExists($filename)){
                     return $themeMdl->asset($res,$filename);
                 }else{

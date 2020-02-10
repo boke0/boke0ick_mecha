@@ -3,11 +3,9 @@
 namespace Boke0\Mechanism\Mdl;
 use Boke0\Skull\Router;
 
-class Struct extends Mdl{
+class Struct{
     public function __construct(){
-        $this->struct=json_decode(
-            file_get_contents(__DIR__."/../../contents/struct.json")
-        ,TRUE);
+        $this->struct=json_decode(file_get_contents(__DIR__."/../../contents/struct.json"),TRUE);
         $this->router=new Router();
         $this->linkmaker=new Router();
         foreach($this->struct as $group){
