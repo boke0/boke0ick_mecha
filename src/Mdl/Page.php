@@ -7,16 +7,13 @@ class Page extends Node{
         parent::__construct($path,$converter,$env);
         $this->struct=$struct;
     }
-    public function __get($k){
-        switch($k){
-            case "section":
-                return new Section(dirname($this->path),$this->struct,$this->converter,$this->env);
-            case "permalink":
-                return $this->struct->link($this->path);
-            case "menu":
-                return new Menu($this->path,$this->struct,$this->converter,$this->env);
-            default:
-                return $this->$k;
-        }
+    public function section(){
+        return new Section(dirname($this->path),$this->struct,$this->converter,$this->env);
+    }
+    public function permalink(){
+        return $this->struct->link($this->path);
+    }
+    public function menu(){
+        return new Menu($this->path,$this->struct,$this->converter,$this->env);
     }
 }

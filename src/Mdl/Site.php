@@ -12,34 +12,30 @@ class Site{
         $this->converter=$converter;
         $this->env=$env;
     }
-    public function __get($k){
-        switch($k){
-            case "pages":
-                $dirname=__DIR__."/../../contents/";
-                $files=explode("\n",`cd $dirname;find . -type f -print0 | xargs -0 ls -t`);
-                $pages=array();
-                foreach($files as $f){
-                    $fname=pathinfo($f,PATHINFO_FILENAME);
-                    if(substr($fname,0,2)=="__"||substr($fname,0,1)=="."){
-                        continue;
-                    }
-                    array_push($pages,new Page($f,$this->_struct,$this->converter,$this->env));
-                }
-                return $pages;
-            case "sections":
-                $dirname=__DIR__."/../../contents/";
-                $dirs=explode("\n",trim(`cd $dirname; find . -type d`));
-                $sections=array();
-                foreach($dirs as $d){
-                    $dname=basename($d);
-                    if(substr($dname,0,1)=="."){
-                        continue;
-                    }
-                    array_push($sections,new Section($d,$this->_struct,$this->converter,$this->env));
-                }
-                return $pages;
-            default:
-                return $this->$k;
+    public function pages(){
+        $dirname=__DIR__."/../../contents/";
+        $files=explode("\n",`cd $dirname;find . -type f -print0 | xargs -0 ls -t`);
+        $pages=array();
+        foreach($files as $f){
+            $fname=pathinfo($f,PATHINFO_FILENAME);
+            if(substr($fname,0,2)=="__"||substr($fname,0,1)=="."){
+                continue;
+            }
+            array_push($pages,new Page($f,$this->_struct,$this->converter,$this->env));
         }
+        return $pages;
+    }
+    public function sections(){
+        $dirname=__DIR__."/../../contents/";
+        $dirs=explode("\n",trim(`cd $dirname; find . -type d`));
+        $sections=array();
+        foreach($dirs as $d){
+            $dname=basename($d);
+            if(substr($dname,0,1)=="."){
+                continue;
+            }
+            array_push($sections,new Section($d,$this->_struct,$this->converter,$this->env));
+        }
+        return $sections;
     }
 }
