@@ -18,10 +18,10 @@ class Site{
         $pages=array();
         foreach($files as $f){
             $fname=pathinfo($f,PATHINFO_FILENAME);
-            if(substr($fname,0,2)=="__"||substr($fname,0,1)=="."){
+            if(substr($fname,0,2)=="__"||$fname==""||substr($f,-3)!=".md"){
                 continue;
             }
-            array_push($pages,new Page($f,$this->_struct,$this->converter,$this->env));
+            array_push($pages,new Page(substr($f,0,-3),$this->_struct,$this->converter,$this->env));
         }
         return $pages;
     }
