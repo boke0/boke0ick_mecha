@@ -15,9 +15,9 @@ class MainCtrl extends Ctrl{
         );
         $env=$theme->getEnvironment();
         $site=new Mdl\Site($this->container->get("parser"),$env,$struct);
-        if(is_file(__DIR__."/../../contents/".$path)){
+        if(is_file(__DIR__."/../../contents/$path.md")){
             $page=new Mdl\Page($path,$struct,$this->container->get("parser"),$env);
-            $section=$page->section;
+            $section=$page->section();
         }else{
             $section=new Mdl\Section($path,$struct,$this->container->get("parser"),$env);
         }

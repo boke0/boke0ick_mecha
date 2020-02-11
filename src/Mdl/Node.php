@@ -15,7 +15,11 @@ class Node{
     }
     public function getMdContent($path){
         $data=array();
-        if(is_dir(self::CONTENT_DIR.$path)) $path.="/__index.md";
+        if(is_dir(self::CONTENT_DIR.$path)){
+            $path.="/__index.md";
+        }else{
+            $path.=".md";
+        }
         $text=$this->converter->parse(
             file_get_contents(realpath(self::CONTENT_DIR.$path))
         );

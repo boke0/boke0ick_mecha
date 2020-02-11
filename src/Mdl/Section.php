@@ -11,20 +11,21 @@ class Section extends Node{
         return new Section(dirname($this->path),$this->struct,$this->converter,$this->twig_env);
     }
     public function children(){
-        $dir=scandir($this->path);
+        $dir=scandir(self::CONTENT_DIR.$this->path);
         $children=array();
         foreach($dir as $d){
-            if(substr($d,0,1)!="."&&is_dir("$this->path/$d")){
+            if(substr($d,0,1)!="."&&is_dir("$this->path/$d")&&realpath(self::CONTENT_DIR."$this->path/$d")!=realpath(self::CONTENT_DIR.$this->path)){
                 array_push($children,new Section("{$this->path}/$d",$this->struct,$this->converter,$this->twig_env));
             }
         }
         return $children;
     }
     public function pages(){
-        $dir=scandir($this->path);
+        $dir=scandir(self::CONTENT_DIR.$this->path);
         $children=array();
         foreach($dir as $f){
-            if(substr($f,0,1)!="."&&is_file("$this->path/$f")){
+            if(substr($f,-3)==".md"&&substr($f,0,1)!="."&&is_file(self::CONTENT_DIR."$this->path/$f")&&substr($f,0,2)=="__"){
+                $f=substr($f,0,-3);
                 array_push($children,new Page("{$this->path}/$f",$this->struct,$this->converter,$this->twig_env));
             }
         }
