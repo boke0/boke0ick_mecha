@@ -29,7 +29,10 @@ class MainCtrl extends Ctrl{
                 [
                     "site"=>$site,
                     "section"=>$section,
-                    "page"=>isset($page)?$page:NULL
+                    "page"=>isset($page)?$page:NULL,
+                    "uri"=>$req->getUri(),
+                    "queryParams"=>$req->getQueryParams(),
+                    "serverParams"=>$req->getServerParams()
                 ]
             )
         );

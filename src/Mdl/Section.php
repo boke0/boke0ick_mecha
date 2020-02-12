@@ -14,7 +14,7 @@ class Section extends Node{
         $dir=scandir(self::CONTENT_DIR.$this->path);
         $children=array();
         foreach($dir as $d){
-            if(substr($d,0,1)!="."&&is_dir("$this->path/$d")&&realpath(self::CONTENT_DIR."$this->path/$d")!=realpath(self::CONTENT_DIR.$this->path)){
+            if(substr($d,0,1)!="."&&is_dir(self::CONTENT_DIR."$this->path/$d")&&realpath(self::CONTENT_DIR."$this->path/$d")!=realpath(self::CONTENT_DIR.$this->path)){
                 array_push($children,new Section("{$this->path}/$d",$this->struct,$this->converter,$this->twig_env));
             }
         }
