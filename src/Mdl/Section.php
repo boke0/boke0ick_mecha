@@ -25,7 +25,7 @@ class Section extends Node{
         $dir=scandir(self::CONTENT_DIR.$this->path);
         $children=array();
         foreach($dir as $f){
-            if(substr($f,-3)==".md"&&substr($f,0,1)!="."&&is_file(self::CONTENT_DIR."$this->path/$f")&&substr($f,0,2)=="__"){
+            if(substr($f,-3)==".md"&&substr($f,0,1)!="."&&is_file(self::CONTENT_DIR."$this->path/$f")&&substr($f,0,2)!="__"){
                 $f=substr($f,0,-3);
                 $page=new Page("{$this->path}/$f",$this->struct,$this->converter,$this->twig_env);
                 $children[$page->slug]=$page;
