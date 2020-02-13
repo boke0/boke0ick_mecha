@@ -21,7 +21,8 @@ class Site{
             if(substr($fname,0,2)=="__"||$fname==""||substr($f,-3)!=".md"){
                 continue;
             }
-            array_push($pages,new Page(substr($f,0,-3),$this->_struct,$this->converter,$this->env));
+            $page=new Page(substr($f,0,-3),$this->_struct,$this->converter,$this->env);
+            $pages[$page->slug]=$page;
         }
         return $pages;
     }
@@ -34,7 +35,8 @@ class Site{
             if(substr($dname,0,1)=="."){
                 continue;
             }
-            array_push($sections,new Section($d,$this->_struct,$this->converter,$this->env));
+            $section=new Section($d,$this->_struct,$this->converter,$this->env);
+            $sections[$section->slug]=$section;
         }
         return $sections;
     }

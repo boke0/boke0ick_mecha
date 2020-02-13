@@ -15,6 +15,7 @@ class Node{
     }
     public function getMdContent($path){
         $data=array();
+        $data["slug"]=basename($path);
         if(is_dir(self::CONTENT_DIR.$path)){
             $path.="/__index.md";
         }else{

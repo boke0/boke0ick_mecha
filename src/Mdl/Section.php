@@ -15,7 +15,8 @@ class Section extends Node{
         $children=array();
         foreach($dir as $d){
             if(substr($d,0,1)!="."&&is_dir(self::CONTENT_DIR."$this->path/$d")&&realpath(self::CONTENT_DIR."$this->path/$d")!=realpath(self::CONTENT_DIR.$this->path)){
-                array_push($children,new Section("{$this->path}/$d",$this->struct,$this->converter,$this->twig_env));
+                $sec=new Section("{$this->path}/$d",$this->struct,$this->converter,$this->twig_env);
+                $children[$sec->slug]=$sec;
             }
         }
         return $children;
@@ -26,7 +27,8 @@ class Section extends Node{
         foreach($dir as $f){
             if(substr($f,-3)==".md"&&substr($f,0,1)!="."&&is_file(self::CONTENT_DIR."$this->path/$f")&&substr($f,0,2)=="__"){
                 $f=substr($f,0,-3);
-                array_push($children,new Page("{$this->path}/$f",$this->struct,$this->converter,$this->twig_env));
+                $page=new Page("{$this->path}/$f",$this->struct,$this->converter,$this->twig_env);
+                $children[$page->slug]=$page;
             }
         }
         return $children;
