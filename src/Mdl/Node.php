@@ -21,12 +21,17 @@ class Node{
         }else{
             $path.=".md";
         }
-        $text=$this->converter->parse(
-            file_get_contents(realpath(self::CONTENT_DIR.$path))
-        );
-        $data["datetime"]=filemtime(realpath(self::CONTENT_DIR.$path));
-        $data+=(array)$text->getYAML();
-        $data["content"]=$this->twig_env->createTemplate($text->getContent());
+        $path_ = realpath(self::CONTENT_DIR.$path);
+        if($path_){
+            $text=$this->converter->parse(
+                file_get_contents($path_)
+            );
+            $data["datetime"]=filemtime(realpath(self::CONTENT_DIR.$path));
+            $data+=(array)$text->getYAML();
+            $data["content"]=$this->twig_env->createTemplate($text->getContent());
+        }else{
+            $data=[];
+        }
         return $data;
     }
 }
